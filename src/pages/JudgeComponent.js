@@ -26,9 +26,8 @@ function Judge() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await fetch('/.netlify/functions/judge', {
+      const response = await fetch(`/.netlify/functions/judge`, {
         method: 'POST',
         body: JSON.stringify(formData),
         headers: {

@@ -3,6 +3,7 @@ require('dotenv').config();
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 
 exports.handler = async (event) => {
+  console.log('event', event);
   const doc = new GoogleSpreadsheet(process.env.GOOGLE_SPREADSHEET_ID);
 
   try {
@@ -17,7 +18,8 @@ exports.handler = async (event) => {
 
     const data = JSON.parse(event.body);
 
-    // const rows = await sheet.getRows();
+    const rows = await sheet.getRows();
+    console.log('rows', rows);
 
     // if (rows.some((row) => row.email === data.email)) {
     //   // Формируем ответ

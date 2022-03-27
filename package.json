@@ -9,6 +9,7 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.2.1",
+    "cross-fetch": "^3.1.5",
     "dotenv": "^16.0.0",
     "google-spreadsheet": "^3.2.0",
     "husky": "^7.0.4",
@@ -57,5 +58,10 @@
       "prettier --write",
       "git add"
     ]
-  }
+  },
+  "proxy": "http://localhost:3000",
+  "devDependencies": {
+    "cross-env": "^7.0.3"
+  },
+  "start": "cross-env PORT=8888 react-scripts start"
 }
