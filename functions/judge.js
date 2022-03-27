@@ -17,7 +17,7 @@ exports.handler = async (event) => {
 
     const data = JSON.parse(event.body);
 
-    const rows = await sheet.getRows();
+    // const rows = await sheet.getRows();
 
     // if (rows.some((row) => row.email === data.email)) {
     //   // Формируем ответ
