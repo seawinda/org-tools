@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form } from 'semantic-ui-react';
-import { StyledContainer, StyledButton } from './styles';
+import { StyledContainer, StyledButton } from '../styles';
 
-import { Spinner, useDeferredRoute } from '../hooks';
+import { Spinner, useDeferredRoute } from '../../hooks';
 
 const isEmpty = (fields) => fields.some((f) => f.trim() === '');
 

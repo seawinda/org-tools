@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Container, Button } from 'semantic-ui-react';
 
-import { Spinner, useDeferredRoute, useTimeout } from '../hooks';
+import { Spinner, useDeferredRoute, useTimeout } from '../../hooks';
 
 function NotFound() {
   const { loading } = useDeferredRoute(500);
