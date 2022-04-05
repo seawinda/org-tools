@@ -86,15 +86,16 @@ const StandardConfirmDialog = (props) => {
         <div className="buttons">
           <StandardButton
             onClick={handleConfirmDialogClose}
-            color={colorButtonReject || 'positive'}
-            variant="outlined"
+            color={colorButtonReject || 'default'}
             text={textButtonReject ?? 'Cancel'}
+            inverted
           />
           <StandardButton
             onClick={handleConfirm}
             color={colorButtonConfirm || 'negative'}
             text={textButtonConfirm ?? 'Ok'}
             dataTestId="modals-confirmDialog-content-buttons-negative-button"
+            inverted
           />
         </div>
       </Modal.Content>

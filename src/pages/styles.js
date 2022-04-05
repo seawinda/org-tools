@@ -1,8 +1,7 @@
 import styled from 'styled-components';
-import { FontFamily } from '../designTokens';
 
 export const StyledContainer = styled.div`
-  font-family: ${FontFamily.mainFont};
+  font-family: ${(props) => props.theme.decorFont};
   background: #000;
   width: 100%;
   min-height: 100vh;
@@ -66,7 +65,7 @@ export const StyledButton = styled.button`
   font-size: 18px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  font-family: ${FontFamily.mainFont};
+  font-family: ${(props) => props.theme.decorFont};
   white-space: nowrap;
   vertical-align: middle;
   overflow: hidden;

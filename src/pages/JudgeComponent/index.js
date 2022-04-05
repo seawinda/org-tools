@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form } from 'semantic-ui-react';
-import { StyledContainer, StyledButton } from '../styles';
+import { StyledContainer } from '../styles';
+import StandardButton from '../../lib/Materials/StandardButton';
 
 import { Spinner, useDeferredRoute } from '../../hooks';
 
@@ -24,8 +25,7 @@ function Judge() {
     });
   };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async () => {
     try {
       const response = await fetch(`/.netlify/functions/judge`, {
         method: 'POST',
@@ -53,7 +53,7 @@ function Judge() {
   return (
     <StyledContainer className="judge">
       <h2>Судейство</h2>
-      <Form onSubmit={onSubmit} className="judge__form">
+      <Form className="judge__form">
         <Form.Field className="judge__field">
           <label>Номер участника</label>
           <input
@@ -67,9 +67,13 @@ function Judge() {
         </Form.Field>
         <p className="error">{error}</p>
 
-        <StyledButton className="judge__button" type="submit" disabled={disabled}>
-          Отправить
-        </StyledButton>
+        <StandardButton
+          onClick={onSubmit}
+          color="primary"
+          text="Отправить"
+          className="judge__button"
+          disabled={disabled}
+        />
       </Form>
     </StyledContainer>
   );

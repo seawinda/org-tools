@@ -22,6 +22,55 @@ export const defaultTheme = {
     bgHover: '#eee',
   },
   standardBtn: {
-    disabled: '#eee',
+    color: {
+      disabled: '#eee',
+      primary: '#fff',
+      default: '#fff',
+      negative: '#9a1915',
+    },
+    border: {
+      disabled: '#eee',
+      primary: '#fff',
+      default: '#fff',
+      negative: '#9a1915',
+    },
+    colorHover: {
+      disabled: '#fff',
+      primary: '#191919',
+      default: '#191919',
+      negative: '#fff',
+    },
+    backgroundHover: {
+      disabled: '#eee',
+      primary: '#fff',
+      default: '#fff',
+      negative: '#9a1915',
+    },
+  },
+  standardBtnInverted: {
+    color: {
+      disabled: '#eee',
+      primary: '#9a1915',
+      default: '#9a1915',
+      negative: '#000',
+    },
+    border: {
+      disabled: '#eee',
+      primary: '#9a1915',
+      default: '#9a1915',
+      negative: '#000',
+    },
+    colorHover: {
+      disabled: '#fff',
+      primary: '#191919',
+      default: '#191919',
+      negative: '#fff',
+    },
+    backgroundHover: {
+      disabled: '#eee',
+      primary: '#9a1915',
+      default: '#fff',
+      negative: '#000',
+    },
   },
 };

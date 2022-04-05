@@ -1,157 +1,111 @@
 import React from 'react';
 import styled from 'styled-components';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { Sizes } from '../../designTokens';
+import { CircularProgress } from '@mui/material';
 
 const Button = styled.button`
-  background: ${(props) => {
-    if (props.disabled) return Colors[props.theme]?.grey;
-    if ((props.variant === 'outlined' || props.variant === 'dashed') && !props.color) return 'none';
-    if ((props.variant === 'outlined' || props.variant === 'dashed') && props.color) {
-      switch (props.color) {
-        case 'primary':
-          return Colors[props.theme]?.opacityGreenBg;
-        case 'default':
-          return 'none';
-        case 'negative':
-          return Colors[props.theme]?.opacityRedBg;
-        default:
-          return Colors[props.theme]?.opacityGreenBg;
-      }
-    }
-    switch (props.color) {
-      case 'primary':
-        return Colors[props.theme]?.green;
-      case 'default':
-        return Colors[props.theme]?.grey;
-      case 'negative':
-        return Colors[props.theme]?.red;
-      default:
-        return Colors[props.theme]?.green;
-    }
-  }};
-  box-shadow: 5px 5px 25px 0
-    ${(props) => {
-      if (props.disabled || props.variant === 'outlined' || props.variant === 'dashed')
-        return 'none';
-      switch (props.color) {
-        case 'primary':
-          return Colors[props.theme]?.lightGreenBg;
-        case 'default':
-          return Colors[props.theme]?.opacityGreyBg;
-        case 'negative':
-          return Colors[props.theme]?.lightRed;
-        default:
-          return Colors[props.theme]?.lightGreenBg;
-      }
-    }};
+  display: inline-block;
+  position: relative;
+  height: 55px;
+  padding: 0 20px;
+  line-height: 55px;
+  background-color: initial;
+  border: 0;
+  border-radius: 0;
+  outline: none !important;
+  box-shadow: none !important;
+  transition: color 0.2s ease-out, border-color 0.2s ease-out, background-color 0.2s ease-out;
+  text-decoration: none;
+  text-align: center;
+  min-width: 20px;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: ${(props) => props.theme.decorFont};
+  white-space: nowrap;
+  vertical-align: middle;
+  overflow: hidden;
+  z-index: 10;
   color: ${(props) => {
-    if (props.disabled) return Colors[props.theme]?.lightFont;
-    if (props.variant === 'outlined' || props.variant === 'dashed') {
-      switch (props.color) {
-        case 'primary':
-          return Colors[props.theme]?.green;
-        case 'default':
-          return Colors[props.theme]?.darkFont;
-        case 'negative':
-          return Colors[props.theme]?.red;
-        default:
-          return Colors[props.theme]?.green;
-      }
-    }
-    switch (props.color) {
-      case 'primary':
-        return Colors[props.theme]?.whiteFont;
-      case 'default':
-        return Colors[props.theme]?.darkFont;
-      case 'negative':
-        return Colors[props.theme]?.whiteFont;
-      default:
-        return Colors[props.theme]?.whiteFont;
-    }
+    if (props.disabled)
+      return !props.inverted
+        ? props.theme.standardBtn.color.disabled
+        : props.theme.standardBtnInverted.color.disabled;
+    if (props.color)
+      return !props.inverted
+        ? props.theme.standardBtn.color[props.color]
+        : props.theme.standardBtnInverted.color[props.color];
+    return !props.inverted
+      ? props.theme.standardBtn.color.default
+      : props.theme.standardBtnInverted.color.default;
   }};
-
-  padding: ${(p) => p.padding || (p.size === 'large' ? '1.3rem' : '0.5rem 1.5rem')};
-  border-radius: 5px;
-  cursor: ${(props) => (props.disabled ? 'default' : 'pointer')};
-  border-width: ${(props) => {
-    if (props.disabled) return `1px`;
-    if (props.variant === 'outlined' || props.variant === 'dashed') {
-      return '1px';
-    }
-    return 0;
-  }};
-  border-color: ${(props) => {
-    if (props.disabled) return Colors[props.theme]?.grey;
-    if (props.variant === 'outlined' || props.variant === 'dashed') {
-      switch (props.color) {
-        case 'primary':
-          return Colors[props.theme]?.green;
-        case 'default':
-          return Colors[props.theme]?.darkFont;
-        case 'negative':
-          return Colors[props.theme]?.red;
-        default:
-          return Colors[props.theme]?.green;
-      }
-    }
-    return 'transparent';
-  }};
-  border-style: ${(props) => {
-    if (props.variant) {
-      switch (props.variant) {
-        case 'outlined':
-          return 'solid';
-        case 'dashed':
-          return 'dashed';
-        default:
-          return 'solid';
-      }
-    } else return 'none';
-  }};
-  font-family: ${FontFamily.mainFont};
-  font-size: ${(p) => (p.size === 'large' ? '1.2rem' : '13px')};
-  transition: box-shadow 0.3s;
-  min-width: 100px;
-  width: ${(p) => (p.size === 'large' ? '100%' : p.width || 'auto')};
-  height: ${(p) => (p.size === 'large' ? 'auto' : p.height || '40px')};
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  &:active,
-  &:focus,
-  &:hover {
-    box-shadow: none;
-    background: ${(props) => {
-      if ((props.variant === 'outlined' || props.variant === 'dashed') && !props.color)
-        return 'none';
-      if (props.disabled) return Colors[props.theme]?.grey;
-      if ((props.variant === 'outlined' || props.variant === 'dashed') && props.color) {
-        switch (props.color) {
-          case 'primary':
-            return Colors[props.theme]?.opacityGreenBg;
-          case 'default':
-            return 'none';
-          case 'negative':
-            return Colors[props.theme]?.opacityRedBg;
-          default:
-            return Colors[props.theme]?.opacityGreenBg;
-        }
-      }
-      switch (props.color) {
-        case 'primary':
-          return Colors[props.theme]?.green;
-        case 'default':
-          return Colors[props.theme]?.grey;
-        case 'negative':
-          return Colors[props.theme]?.red;
-        default:
-          return Colors[props.theme]?.green;
-      }
+  width: 100%;
+  max-width: 300px;
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  &:before {
+    border-width: 4px;
+    border-style: solid;
+    border-color: ${(props) => {
+      if (props.disabled)
+        return !props.inverted
+          ? props.theme.standardBtn.border.disabled
+          : props.theme.standardBtnInverted.border.disabled;
+      if (props.color)
+        return !props.inverted
+          ? props.theme.standardBtn.border[props.color]
+          : props.theme.standardBtnInverted.border[props.color];
+      return !props.inverted
+        ? props.theme.standardBtn.border.default
+        : props.theme.standardBtnInverted.border.default;
     }};
   }
-  @media (max-height: ${Sizes.smallHeight}) {
-    padding: 0.7rem 1.5rem;
+  &:after {
+    z-index: -1;
+    transform: scaleY(0);
+    transform-origin: 50% 0;
+    transition: transform 0.2s ease-out;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    background: ${(props) => {
+      if (props.disabled)
+        return !props.inverted
+          ? props.theme.standardBtn.backgroundHover.disabled
+          : props.theme.standardBtnInverted.backgroundHover.disabled;
+      if (props.color)
+        return !props.inverted
+          ? props.theme.standardBtn.backgroundHover[props.color]
+          : props.theme.standardBtnInverted.backgroundHover[props.color];
+      return !props.inverted
+        ? props.theme.standardBtn.backgroundHover.default
+        : props.theme.standardBtnInverted.backgroundHover.default;
+    }};
+  }
+  &:hover {
+    color: ${(props) => {
+      if (props.disabled)
+        return !props.inverted
+          ? props.theme.standardBtn.colorHover.disabled
+          : props.theme.standardBtnInverted.colorHover.disabled;
+      if (props.color)
+        return !props.inverted
+          ? props.theme.standardBtn.colorHover[props.color]
+          : props.theme.standardBtnInverted.colorHover[props.color];
+      return !props.inverted
+        ? props.theme.standardBtn.colorHover.default
+        : props.theme.standardBtnInverted.colorHover.default;
+    }};
+    cursor: ${(props) => (props.disabled ? 'default' : 'pointer')};
+    &:after {
+      transform: scaleY(1);
+    }
   }
 `;
 
@@ -159,7 +113,6 @@ const StandardButton = (props) => {
   const {
     onClick,
     text,
-    theme,
     color,
     variant,
     disabled,
@@ -171,12 +124,12 @@ const StandardButton = (props) => {
     dataTestId,
     loaderSize,
     loading,
+    inverted,
   } = props;
 
   return (
     <Button
       onClick={onClick}
-      theme={theme}
       color={color}
       disabled={disabled}
       variant={variant}
@@ -187,6 +140,7 @@ const StandardButton = (props) => {
       padding={padding}
       data-testid={dataTestId}
       loaderSize={loaderSize}
+      inverted={inverted}
     >
       {loading ? <CircularProgress size={loaderSize} color="inherit" /> : text}
     </Button>

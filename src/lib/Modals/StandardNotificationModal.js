@@ -80,6 +80,7 @@ const StandardNotificationModal = (props) => {
           color="primary"
           text={textButtonCancel ?? 'Cancel'}
           className="notification__button"
+          inverted
         />
       </Modal.Content>
     </StyledStandardNotificationModal>
