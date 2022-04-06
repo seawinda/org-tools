@@ -125,6 +125,8 @@ const StandardButton = (props) => {
     loaderSize,
     loading,
     inverted,
+    as,
+    to,
   } = props;
 
   return (
@@ -139,10 +141,11 @@ const StandardButton = (props) => {
       height={height}
       padding={padding}
       data-testid={dataTestId}
-      loaderSize={loaderSize}
       inverted={inverted}
+      as={as}
+      to={to}
     >
-      {loading ? <CircularProgress size={loaderSize} color="inherit" /> : text}
+      {loading && loaderSize ? <CircularProgress size={loaderSize} color="inherit" /> : text}
     </Button>
   );
 };

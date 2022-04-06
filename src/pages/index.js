@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-import { StyledContainer, StyledButton } from './styles';
+import { StyledContainer } from './styles';
 import { Spinner, useDeferredRoute } from '../hooks';
+import StandardButton from '../lib/Materials/StandardButton';
 
 function Home() {
   const { loading } = useDeferredRoute(1500);
@@ -9,9 +10,13 @@ function Home() {
 
   return (
     <StyledContainer className="home">
-      <StyledButton className="home__button" as={Link} to="/judge">
-        Судейство
-      </StyledButton>
+      <StandardButton
+        as={Link}
+        to="/judge"
+        color="primary"
+        text="Судейство"
+        className="home__button"
+      />
     </StyledContainer>
   );
 }

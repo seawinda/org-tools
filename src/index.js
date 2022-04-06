@@ -5,15 +5,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ThemeProvider } from 'styled-components';
 import { defaultTheme } from './designTokens';
+import 'semantic-ui-css/semantic.min.css';
 
 const theme = defaultTheme;
 
 ReactDOM.render(
-  <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <App />
-    </ThemeProvider>
-  </React.StrictMode>,
+  <ThemeProvider theme={theme}>
+    <App />
+  </ThemeProvider>,
   document.getElementById('root')
 );
 
