@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Form } from 'semantic-ui-react';
+import { Form, Dropdown } from 'semantic-ui-react';
+import { Chip } from '@mui/material';
 import styled from 'styled-components';
 import { StyledContainer } from '../styles';
 import StandardButton from '../../lib/Materials/StandardButton';
 import { Spinner, useDeferredRoute } from '../../hooks';
-import { Dropdown } from 'semantic-ui-react';
 
 const fineOptions = [
   { key: 1, text: 'Сход', value: 'leave' },
@@ -32,28 +32,30 @@ const StyledJudge = styled(StyledContainer)`
     align-items: flex-start;
     width: 100%;
   }
+  .judge__paticipant {
+    background-color: #fff;
+  }
 `;
 
-const isEmpty = (fields) => fields.some((f) => f.trim() === '');
+const isEmpty = (fields) => {
+  return fields.some((f) => {
+    if (Array.isArray(f)) return f.length === 0;
+    return f.trim() === '';
+  });
+};
 
 const Judge = (props) => {
   const [formData, setFormData] = useState({
     fine: 'Сход',
-    paticipantNumber: '',
+    paticipants: [],
   });
   const [error, setError] = useState(null);
   const [fineValue, setFineValue] = useState('leave');
+  const [paticipantNumbers, setPaticipantNumbers] = useState('');
+  const [paticipantNumbersArray, setPaticipantNumbersArray] = useState([]);
 
   const { loading } = useDeferredRoute(1000);
   const navigate = useNavigate();
-
-  const onChange = ({ target: { name, value } }) => {
-    setError(null);
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
 
   const onChangeFine = (e, { value }) => {
     setError(null);
@@ -67,7 +69,50 @@ const Judge = (props) => {
     else setError('Что-то пошло не так');
   };
 
+  const onChangeNumbers = ({ target: { value } }) => {
+    setError(null);
+    setPaticipantNumbers(value.replace(/[^0-9\s]/, ''));
+  };
+
+  const onAddPaticipants = () => {
+    if (paticipantNumbers.length > 0) {
+      pushPaticipants();
+      setPaticipantNumbers('');
+    }
+  };
+
+  const pushPaticipants = () => {
+    let paticipants = [...paticipantNumbersArray];
+    let newPaticipants = paticipantNumbers
+      .trim()
+      .split(' ')
+      .filter((x) => x.trim() !== null);
+    paticipants = paticipants.concat(newPaticipants);
+    paticipants = [...new Set(paticipants)];
+    setPaticipantNumbersArray(paticipants);
+    setFormData({
+      ...formData,
+      paticipants: paticipants,
+    });
+  };
+
+  const onDelete = (item) => {
+    let newPaticipantNumbersArray = paticipantNumbersArray.filter((x) => x !== item);
+    setPaticipantNumbersArray(newPaticipantNumbersArray);
+    setFormData({
+      ...formData,
+      paticipants: newPaticipantNumbersArray,
+    });
+  };
+
   const onSubmit = async () => {
+    pushPaticipants();
+    if (paticipantNumbersArray.length === 0) {
+      return setError('Введите номера участников');
+    }
+    if (paticipantNumbersArray.length === 0) {
+      return setError('Введите номера участников');
+    }
     try {
       const response = await fetch(`/.netlify/functions/judge`, {
         method: 'POST',
@@ -87,8 +132,7 @@ const Judge = (props) => {
   };
 
   const disabled = isEmpty(Object.values(formData));
-
-  const { paticipantNumber } = formData;
+  const disabledAdd = paticipantNumbers?.length === 0;
 
   if (loading) return <Spinner />;
 
@@ -96,7 +140,6 @@ const Judge = (props) => {
     <>
       <StyledJudge className="judge">
         <h2 className="judge__title">Судейство</h2>
-
         <Form className="judge__form">
           <Form.Field className="judge__field">
             <label>Штраф / сход</label>
@@ -108,20 +151,43 @@ const Judge = (props) => {
               selection
             />
           </Form.Field>
+          {fineValue === 'fine' && (
+            <Form.Field className="judge__field">
+              <label>Цвет карточки</label>
+            </Form.Field>
+          )}
           <Form.Field className="judge__field">
-            <label>Номер участника</label>
-            <input
-              placeholder="Имя"
-              type="number"
-              name="paticipantNumber"
-              value={paticipantNumber}
-              onChange={onChange}
-              required
-            />
+            <label>Номера участников через пробел</label>
+            <div className="judge__add-numbers">
+              <input
+                placeholder="Номера участников"
+                type="text"
+                name="paticipantNumber"
+                value={paticipantNumbers}
+                onChange={onChangeNumbers}
+                required
+              />
+              <StandardButton
+                onClick={onAddPaticipants}
+                color="primary"
+                text="Добавить"
+                className="judge__button_add"
+                disabled={disabledAdd}
+              />
+            </div>
+            <div className="judge__numbers">
+              {paticipantNumbersArray.map((item, index) => (
+                <Chip
+                  className="judge__paticipant"
+                  key={`paticipant_${index * 1}`}
+                  label={item}
+                  onDelete={() => onDelete(item)}
+                />
+              ))}
+            </div>
           </Form.Field>
 
           <p className="error">{error}</p>
-
           <StandardButton
             onClick={onSubmit}
             color="primary"
